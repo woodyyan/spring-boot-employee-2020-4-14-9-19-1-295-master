@@ -39,11 +39,11 @@ public class EmployeeControllerTest {
     public void setUp() {
         RestAssuredMockMvc.standaloneSetup(employeeController);
 
-        Employee employee0 = new Employee(0, "Xiaoming", 20, "Male", 0);
-        Employee employee1 = new Employee(1, "Xiaohong", 19, "Male", 0);
-        Employee employee2 = new Employee(2, "Xiaozhi", 15, "Male", 0);
-        Employee employee3 = new Employee(3, "Xiaogang", 16, "Male", 0);
-        Employee employee4 = new Employee(4, "Xiaoxia", 15, "Male", 0);
+        Employee employee0 = new Employee(0, 1, "Xiaoming", 20, "Male", 0);
+        Employee employee1 = new Employee(1, 1, "Xiaohong", 19, "Male", 0);
+        Employee employee2 = new Employee(2, 2, "Xiaozhi", 15, "Male", 0);
+        Employee employee3 = new Employee(3, 1, "Xiaogang", 16, "Male", 0);
+        Employee employee4 = new Employee(4, 1, "Xiaoxia", 15, "Male", 0);
 
         List<Employee> employees = new ArrayList<>();
         employees.add(employee0);
