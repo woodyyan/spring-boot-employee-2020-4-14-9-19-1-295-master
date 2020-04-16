@@ -13,12 +13,17 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -48,25 +53,26 @@ public class EmployeeControllerTest {
         employees.add(employee4);
 
         Mockito.when(employeeRepository.findAll())
-                .thenReturn(employees);
+            .thenReturn(employees);
 
-        List<Employee> pagedEmployees = new ArrayList<>();
-        pagedEmployees.add(employee3);
-        pagedEmployees.add(employee4);
-        Mockito.when(employeeRepository.findAll(2, 3))
-                .thenReturn(pagedEmployees);
+        List<Employee> subEmployees = new ArrayList<>();
+        subEmployees.add(employee3);
+        subEmployees.add(employee4);
+        Page<Employee> pagedEmployees = new PageImpl<>(subEmployees);
+        Mockito.when(employeeRepository.findAll(any(Pageable.class)))
+            .thenReturn(pagedEmployees);
 
         Mockito.when(employeeRepository.findById(1))
-                .thenReturn(Optional.of(employee1));
+            .thenReturn(Optional.of(employee1));
 
         Mockito.when(employeeRepository.findByGender("male"))
-                .thenReturn(employees);
+            .thenReturn(employees);
     }
 
     @Test
     public void should_return_all_employees_when_get_all() {
         MockMvcResponse response = RestAssuredMockMvc.given().contentType(ContentType.JSON)
-                .get("/employees");
+            .get("/employees");
 
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
@@ -82,9 +88,9 @@ public class EmployeeControllerTest {
     @Test
     public void should_return_correct_employee_when_get_all_with_page() {
         MockMvcResponse response = RestAssuredMockMvc.given().contentType(ContentType.JSON)
-                .queryParam("page", 2)
-                .queryParam("pageSize", 3)
-                .get("/employees");
+            .queryParam("page", 2)
+            .queryParam("pageSize", 3)
+            .get("/employees");
 
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
@@ -106,8 +112,8 @@ public class EmployeeControllerTest {
     @Test
     public void should_return_correct_employees_when_get_by_gender() {
         MockMvcResponse response = RestAssuredMockMvc.given().contentType(ContentType.JSON)
-                .queryParam("gender", "male")
-                .get("/employees");
+            .queryParam("gender", "male")
+            .get("/employees");
 
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
@@ -123,7 +129,7 @@ public class EmployeeControllerTest {
     @Test
     public void should_return_employee_1_when_get_1() {
         MockMvcResponse response = RestAssuredMockMvc.given().contentType(ContentType.JSON)
-                .get("/employees/1");
+            .get("/employees/1");
 
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
@@ -137,14 +143,14 @@ public class EmployeeControllerTest {
     @Test
     public void should_return_correct_employee_when_create() {
         MockMvcResponse response = RestAssuredMockMvc.given().contentType(ContentType.JSON)
-                .body("{" +
-                        "\"id\": 10," +
-                        "\"name\": \"Test\"," +
-                        "\"age\": 19," +
-                        "\"gender\": \"Male\"," +
-                        "\"salary\": 0" +
-                        "}")
-                .post("/employees");
+            .body("{" +
+                "\"id\": 10," +
+                "\"name\": \"Test\"," +
+                "\"age\": 19," +
+                "\"gender\": \"Male\"," +
+                "\"salary\": 0" +
+                "}")
+            .post("/employees");
 
         Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
 
@@ -158,7 +164,7 @@ public class EmployeeControllerTest {
     @Test
     public void should_return_200_when_delete() {
         MockMvcResponse response = RestAssuredMockMvc.given().contentType(ContentType.JSON)
-                .delete("/employees/1");
+            .delete("/employees/1");
 
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
     }
@@ -166,10 +172,10 @@ public class EmployeeControllerTest {
     @Test
     public void should_return_correct_employee_when_update() {
         MockMvcResponse response = RestAssuredMockMvc.given().contentType(ContentType.JSON)
-                .body("{" +
-                        "\"name\": \"New name\"" +
-                        "}")
-                .put("/employees/1");
+            .body("{" +
+                "\"name\": \"New name\"" +
+                "}")
+            .put("/employees/1");
 
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 

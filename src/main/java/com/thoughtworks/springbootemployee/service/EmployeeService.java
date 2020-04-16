@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getAll(Integer page, Integer pageSize) {
-        return employeeRepository.findAll(page, pageSize);
+        return employeeRepository.findAll(PageRequest.of(page, pageSize)).getContent();
     }
 
     public Employee get(Integer employeeId) {
@@ -32,13 +33,13 @@ public class EmployeeService {
 
     public void delete(Integer employeeId) {
         employeeRepository.findById(employeeId)
-                .ifPresent(employee -> employeeRepository.delete(employee));
+            .ifPresent(employee -> employeeRepository.delete(employee));
     }
 
     public Employee update(Integer employeeId, Employee employeeUpdate) {
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
 
-        if(employee == null) {
+        if (employee == null) {
             return null;
         }
 
@@ -54,7 +55,7 @@ public class EmployeeService {
         if (employeeUpdate.getSalary() != null) {
             employee.setSalary(employeeUpdate.getSalary());
         }
-        return employee;
+        return employeeRepository.save(employee);
     }
 
     public List<Employee> getByGender(String gender) {

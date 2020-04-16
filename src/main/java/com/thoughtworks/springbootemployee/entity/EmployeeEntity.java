@@ -1,4 +1,4 @@
-package com.thoughtworks.springbootemployee.model;
+package com.thoughtworks.springbootemployee.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,20 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+//@Entity
+//@Table(name = "employee")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "company")
-public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class EmployeeEntity {
     private Integer id;
     private String name;
     private Integer age;
