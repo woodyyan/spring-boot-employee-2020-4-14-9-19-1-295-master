@@ -42,13 +42,13 @@ public class CompanyControllerTest {
         RestAssuredMockMvc.standaloneSetup(companyController);
 
         List<Employee> employeesInSpring = new ArrayList<>();
-        employeesInSpring.add(new Employee(10, 1, "spring1", 20, "Male", 1000, new ParkingBoy()));
-        employeesInSpring.add(new Employee(11, 1, "spring2", 19, "Male", 2000, new ParkingBoy()));
-        employeesInSpring.add(new Employee(12, 1, "spring3", 15, "Male", 3000, new ParkingBoy()));
+        employeesInSpring.add(new Employee(10, 1, "spring1", 20, "Male", 1000));
+        employeesInSpring.add(new Employee(11, 1, "spring2", 19, "Male", 2000));
+        employeesInSpring.add(new Employee(12, 1, "spring3", 15, "Male", 3000));
 
         List<Employee> employeesInBoot = new ArrayList<>();
-        employeesInBoot.add(new Employee(13, 1, "boot1", 16, "Male", 4000, new ParkingBoy()));
-        employeesInBoot.add(new Employee(14, 1, "boot2", 15, "Male", 5000, new ParkingBoy()));
+        employeesInBoot.add(new Employee(13, 1, "boot1", 16, "Male", 4000));
+        employeesInBoot.add(new Employee(14, 1, "boot2", 15, "Male", 5000));
 
         Company company0 = new Company(0, "spring", 3, employeesInSpring);
         Company company1 = new Company(1, "boot", 2, employeesInBoot);
